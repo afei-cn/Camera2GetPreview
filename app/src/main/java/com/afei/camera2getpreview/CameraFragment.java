@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import com.afei.camera2getpreview.util.Camera2Proxy;
 import com.afei.camera2getpreview.util.FileUtil;
 
-import java.io.File;
 import java.nio.ByteBuffer;
 
 public class CameraFragment extends Fragment implements View.OnClickListener {
@@ -119,7 +117,6 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            Log.d(TAG, "------onImageAvailable------");
             Image image = reader.acquireLatestImage();
             if (image == null) {
                 return;
@@ -131,19 +128,29 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
                 mYuvBytes = new byte[width * height * 3 / 2]; // YUV420 大小总是 width * height * 3 / 2
             }
 
+            // YUV_420_888
             Image.Plane[] planes = image.getPlanes();
 
             // Y通道
+            // Y size = width * height
+            // yBuffer.remaining() = width * height;
+            // pixelStride = 1
             ByteBuffer yBuffer = planes[0].getBuffer();
             int yLen = width * height;
             yBuffer.get(mYuvBytes, 0, yLen);
             // U通道
+            // U size = width * height / 4;
+            // uBuffer.remaining() = width * height / 2;
+            // pixelStride = 2
             ByteBuffer uBuffer = planes[1].getBuffer();
             int pixelStride = planes[1].getPixelStride(); // pixelStride = 2
             for (int i = 0; i < uBuffer.remaining(); i+=pixelStride) {
                 mYuvBytes[yLen++] = uBuffer.get(i);
             }
             // V通道
+            // V size = width * height / 4;
+            // vBuffer.remaining() = width * height / 2;
+            // pixelStride = 2
             ByteBuffer vBuffer = planes[2].getBuffer();
             pixelStride = planes[2].getPixelStride(); // pixelStride = 2
             for (int i = 0; i < vBuffer.remaining(); i+=pixelStride) {

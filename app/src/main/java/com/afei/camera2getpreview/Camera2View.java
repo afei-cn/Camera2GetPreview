@@ -2,10 +2,8 @@ package com.afei.camera2getpreview;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.TextureView;
 
 import com.afei.camera2getpreview.util.Camera2Proxy;
@@ -65,9 +63,6 @@ public class Camera2View extends TextureView {
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
             }
         }
-
-        Log.d(TAG, "onMeasure. width: " + width + ", height: " + height);
-        Log.d(TAG, "onMeasure. mRatioWidth: " + mRatioWidth + ", mRatioHeight: " + mRatioHeight);
     }
 
 }
