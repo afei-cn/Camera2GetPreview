@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Camera2GetPreview</string>
+
+    <string name="permission_tip">Tip</string>
+    <string name="permission_msg">request permission failed! \n
+            you can grant permission in setting interface -> Permissions</string>
+    <string name="permission_btn_setting">go to setting</string>
+    <string name="permission_btn_quit">quit</string>
 </resources>
