@@ -35,12 +35,16 @@ public class MainActivity extends AppCompatActivity {
     private void initCameraFragment() {
         if (mCameraFragment == null) {
             mCameraFragment = new CameraFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mCameraFragment).commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, mCameraFragment)
+                    .commit();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == Permission.REQUEST_CODE) {
             for (int grantResult : grantResults) {

@@ -59,8 +59,8 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
-            savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_camera, null);
         initView(rootView);
         return rootView;
@@ -113,7 +113,8 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
     private byte[] mYuvBytes;
     private boolean mIsShutter;
 
-    private ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener() {
+    private ImageReader.OnImageAvailableListener mOnImageAvailableListener
+            = new ImageReader.OnImageAvailableListener() {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
@@ -125,20 +126,21 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
             int width = mCameraProxy.getPreviewSize().getWidth();
             int height = mCameraProxy.getPreviewSize().getHeight();
             if (mYuvBytes == null) {
-                mYuvBytes = new byte[width * height * 3 / 2]; // YUV420 大小总是 width * height * 3 / 2
+                // YUV420 大小总是 width * height * 3 / 2
+                mYuvBytes = new byte[width * height * 3 / 2];
             }
 
             // YUV_420_888
             Image.Plane[] planes = image.getPlanes();
 
-            // Y通道
+            // Y通道，对应planes[0]
             // Y size = width * height
             // yBuffer.remaining() = width * height;
             // pixelStride = 1
             ByteBuffer yBuffer = planes[0].getBuffer();
             int yLen = width * height;
             yBuffer.get(mYuvBytes, 0, yLen);
-            // U通道
+            // U通道，对应planes[1]
             // U size = width * height / 4;
             // uBuffer.remaining() = width * height / 2;
             // pixelStride = 2
@@ -147,7 +149,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
             for (int i = 0; i < uBuffer.remaining(); i+=pixelStride) {
                 mYuvBytes[yLen++] = uBuffer.get(i);
             }
-            // V通道
+            // V通道，对应planes[2]
             // V size = width * height / 4;
             // vBuffer.remaining() = width * height / 2;
             // pixelStride = 2
@@ -161,6 +163,8 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
                 mIsShutter = false;
                 FileUtil.saveBytes(mYuvBytes);
             }
+
+            // 一定不能忘记close
             image.close();
         }
     };

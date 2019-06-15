@@ -81,7 +81,8 @@ public class Camera2Proxy {
         try {
             CameraManager cameraManager = (CameraManager) mActivity.getSystemService(Context.CAMERA_SERVICE);
             Log.d(TAG, "preview size: " + mPreviewSize.getWidth() + "*" + mPreviewSize.getHeight());
-            mImageReader = ImageReader.newInstance(mPreviewSize.getWidth(), mPreviewSize.getHeight(), ImageFormat.YUV_420_888, 2);
+            mImageReader = ImageReader.newInstance(mPreviewSize.getWidth(), mPreviewSize.getHeight(),
+                    ImageFormat.YUV_420_888, 2);
             mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
             // 打开摄像头
             cameraManager.openCamera(Integer.toString(mCameraId), mStateCallback, mBackgroundHandler);
@@ -120,8 +121,10 @@ public class Camera2Proxy {
     private void initPreviewRequest() {
         try {
             final CaptureRequest.Builder builder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            builder.addTarget(mPreviewSurface); // 添加输出到屏幕的surface
-            builder.addTarget(mImageReader.getSurface()); // 添加输出到ImageReader的surface。然后我们就可以从ImageReader中获取预览数据了
+            // 添加输出到屏幕的surface
+            builder.addTarget(mPreviewSurface);
+            // 添加输出到ImageReader的surface。然后我们就可以从ImageReader中获取预览数据了
+            builder.addTarget(mImageReader.getSurface());
             mCameraDevice.createCaptureSession(Arrays.asList(mPreviewSurface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
 
@@ -129,8 +132,10 @@ public class Camera2Proxy {
                         public void onConfigured(@NonNull CameraCaptureSession session) {
                             mCaptureSession = session;
                             // 设置连续自动对焦和自动曝光
-                            builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-                            builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+                            builder.set(CaptureRequest.CONTROL_AF_MODE,
+                                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+                            builder.set(CaptureRequest.CONTROL_AE_MODE,
+                                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
                             CaptureRequest captureRequest = builder.build();
                             try {
                                 // 一直发送预览请求
