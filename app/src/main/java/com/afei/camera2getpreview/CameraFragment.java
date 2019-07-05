@@ -1,5 +1,6 @@
 package com.afei.camera2getpreview;
 
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.Image;
 import android.media.ImageReader;
@@ -15,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.afei.camera2getpreview.util.Camera2Proxy;
+import com.afei.camera2getpreview.util.ColorConvertUtil;
 import com.afei.camera2getpreview.util.FileUtil;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 
 public class CameraFragment extends Fragment implements View.OnClickListener {
@@ -161,7 +164,15 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
 
             if (mIsShutter) {
                 mIsShutter = false;
-                FileUtil.saveBytes(mYuvBytes);
+
+                // save yuv data
+                String yuvPath = FileUtil.SAVE_DIR + System.currentTimeMillis() + ".yuv";
+                FileUtil.saveBytes(mYuvBytes, yuvPath);
+
+                // save bitmap data
+                String jpgPath = yuvPath.replace(".yuv", ".jpg");
+                Bitmap bitmap = ColorConvertUtil.yuv420pToBitmap(mYuvBytes, width, height);
+                FileUtil.saveBitmap(bitmap, jpgPath);
             }
 
             // 一定不能忘记close
