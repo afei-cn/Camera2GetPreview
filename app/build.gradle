@@ -2,7 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 28
+    compileSdkVersion 29
+    buildToolsVersion "30.0.1"
 
     defaultConfig {
         applicationId "com.afei.camera2getpreview"
@@ -35,5 +36,5 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 }

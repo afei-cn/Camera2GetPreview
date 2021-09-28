@@ -1,9 +1,10 @@
 package com.afei.camera2getpreview;
 
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.afei.camera2getpreview.util.Permission;
 import com.afei.camera2getpreview.util.PermissionDialog;

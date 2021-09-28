@@ -16,10 +16,11 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
+
+import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 

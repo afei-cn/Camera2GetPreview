@@ -5,9 +5,6 @@ import android.graphics.SurfaceTexture;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -15,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.afei.camera2getpreview.util.Camera2Proxy;
 import com.afei.camera2getpreview.util.ColorConvertUtil;
 import com.afei.camera2getpreview.util.FileUtil;
 
-import java.io.File;
 import java.nio.ByteBuffer;
 
 public class CameraFragment extends Fragment implements View.OnClickListener {
@@ -173,10 +173,12 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
                 String jpgPath = yuvPath.replace(".yuv", ".jpg");
                 Bitmap bitmap = ColorConvertUtil.yuv420pToBitmap(mYuvBytes, width, height);
                 FileUtil.saveBitmap(bitmap, jpgPath);
+                bitmap.recycle();
             }
 
             // 一定不能忘记close
             image.close();
+            reader.close();
         }
     };
 }
