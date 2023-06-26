@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class FileUtil {
 
+    // Android新的版本对SDCARD的权限管理更严格了，直接在该目录存bin文件可能没有权限
     public static final String SAVE_DIR = "/sdcard/DCIM/Camera2GetPreview/";
 
     public static boolean saveBytes(byte[] bytes, String imagePath) {
